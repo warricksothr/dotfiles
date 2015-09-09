@@ -1,3 +1,5 @@
 [user]
 	email = warrick@sothr.com
 	name = Drew Short
+[credentials]
+	helper = cache --timeout=3600
