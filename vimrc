@@ -141,7 +141,12 @@ map <C-l> <C-W>l
 set laststatus=2
 
 " Format for the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %y\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l.%c/%L
+set statusline=\ %{HasPaste()}
+set statusline+=%F%m%r%h
+set statusline+=\ %y
+set statusline+=\ %w
+set statusline+=\ \ CWD:\ %r%{getcwd()}%h
+set statusline+=\ \ \ Line:\ %l.%c/%L
 
 """"
 " Spell Checking
