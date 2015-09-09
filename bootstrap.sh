@@ -11,18 +11,21 @@
 # Make a backup of the existing file if it exists
 # Then link to our supplied dotfile
 link() {
-    if [ -f "$HOME/$1" ]; then    
-        cp "$HOME/$1" "$HOME/$1.old"
-        echo "Backed up original $1 to $HOME/$1.old"
+    if [ -f "$1/$2" ]; then    
+        cp "$1/$2" "$1/$2.old"
+        echo "Backed up original $2 to $1/$2.old"
     fi
-    ln -sf "$PWD/$2" "$HOME/$1"
+    ln -sf "$PWD/$3" "$1/$2"
 }
 
 set -x
 set -e
 
 # Configure .vimrc
-link ".vimrc" "vimrc"
+link "$HOME" ".vimrc" "vimrc"
 
 # Configure .gitconfig
-link ".gitconfig" "gitconfig"
+link "$HOME" ".gitconfig" "gitconfig"
+
+# Configure .zshrc
+link "$HOME" ".zshrc" "zshrc"
