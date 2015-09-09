@@ -11,7 +11,8 @@
 # Make a backup of the existing file if it exists
 # Then link to our supplied dotfile
 link() {
-    if [ -f "$1/$2" ]; then    
+    # Only make a backup if an existing file is there and is not a link
+    if [ -f "$1/$2" ] && [ ! -L "$1/$2" ]; then    
         cp "$1/$2" "$1/$2.old"
         echo "Backed up original $2 to $1/$2.old"
     fi
