@@ -19,11 +19,30 @@ link() {
     ln -sf "$PWD/$3" "$1/$2"
 }
 
+link_dir() {
+    # Only make a backup if an existing directory is there and is not a link
+    if [ -d "$1/$2" ] && [ ! -L "$1/$2" ]; then    
+        mv "$1/$2" "$1/$2.old"
+        echo "Backed up original $2 to $1/$2.old"
+    fi
+    ln -sf "$3" "$1/$2"
+}
+
 set -x
 set -e
 
 # Configure .vimrc
 link "$HOME" ".vimrc" "vimrc"
+
+# Configure Pathogen Plugins
+VIM_BUNDLE=$HOME/.vim/bundle
+mkdir -p $VIM_BUNDLE
+plugins=($(ls -d $PWD/.vim/bundle/* | tr -s ' '))
+for plugin in ${plugins[@]}; do
+    parts=($(echo "$plugin" | tr '/' ' '))
+    plugin_name=${parts[-1]}
+    link_dir $VIM_BUNDLE $plugin_name $plugin
+done
 
 # Configure .gitconfig
 link "$HOME" ".gitconfig" "gitconfig"
@@ -38,5 +57,6 @@ if [ ! -f "$HOME/.update_dotfiles.sh" ]; then
     echo "cd $PWD" >> $HOME/.update_dotfiles.sh
     echo "git checkout master" >> $HOME/.update_dotfiles.sh
     echo "git pull" >> $HOME/.update_dotfiles.sh
+    echo "git submodule update" >> $HOME/.update_dotfiles.sh
     chmod +x $HOME/.update_dotfiles.sh
 fi
