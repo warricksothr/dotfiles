@@ -34,6 +34,13 @@ set -e
 # Configure .vimrc
 link "$HOME" ".vimrc" "vimrc"
 
+# Download pathogen if it doesn't exist already
+VIM_AUTOLOAD=$HOME/.vim/autoload
+mkdir -p $VIM_AUTOLOAD
+if [ ! -f "$VIM_AUTOLOAD/pathogen.vim" ]; then
+    curl -LSso $VIM_AUTOLOAD/pathogen.vim https://tpo.pe/pathogen.vim
+fi
+
 # Configure Pathogen Plugins
 VIM_BUNDLE=$HOME/.vim/bundle
 mkdir -p $VIM_BUNDLE

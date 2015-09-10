@@ -19,11 +19,6 @@ curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools
 chmod +x install.sh
 $env sh install.sh
 
-# Install pathogen for vim
-cd $HOME
-mkdir -p $HOME/.vim/autoload $HOME/.vim/bundle
-curl -LSso $HOME/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-
 # Install Other Essential Tools
 
 
