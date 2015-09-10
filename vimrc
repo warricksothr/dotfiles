@@ -164,11 +164,19 @@ set laststatus=2
 
 " Format for the status line
 set statusline=\ %{HasPaste()}
-set statusline+=%F%m%r%h
-set statusline+=\ %y
-set statusline+=\ %w
+set statusline+=%F "File
+set statusline+=%m%r%h "File mode/status
+set statusline+=\ %y "File type
+set statusline+=\ %w 
 set statusline+=\ \ CWD:\ %r%{getcwd()}%h
 set statusline+=\ \ \ Line:\ %l.%c/%L
+
+" Set the statusline color based on the current mode
+au InsertEnter * call InsertStatusLineColor(v:insertmode)
+au InsertLeave * hi Statusline ctermfg=black ctermbg=white guifg=black guibg=white
+
+" Grey status line on first entrance
+hi Statusline ctermfg=black ctermbg=white guifg=black guibg=white
 
 """"
 " Spell Checking
@@ -193,6 +201,19 @@ map <leader>pp :setlocal paste!<cr
 """"
 " Helper Functions
 """"
+
+function! InsertStatusLineColor(mode)
+    " Insert Mode
+    if a:mode == 'i'
+        hi Statusline ctermfg=black ctermbg=green guifg=black guibg=green
+    " Replace Mode
+    elseif a:mode == 'r'
+        hi Statusline ctermfg=black ctermbg=darkcyan guifg=black guibg=darkcyan
+    " All Others (Visual,Select,Command-line,EX)
+    else
+        hi Statusline ctermfg=black ctermbg=darkred guifg=black guibg=darkred
+    endif
+endfunction
 
 " Returns true if paste mode is enabled
 function! HasPaste()
