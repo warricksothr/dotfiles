@@ -1,3 +1,6 @@
+" Call pathogen if it's installed
+call pathogen#infect()
+
 """"
 " General Settings
 """"
@@ -38,6 +41,9 @@ set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
 
 " Show the ruler
 set ruler
+
+" Show line numbers
+set number
 
 " Command bar height should be 2 rows
 set cmdheight=2
@@ -87,6 +93,9 @@ set foldcolumn=1
 " Enable syntax highlighting
 syntax enable
 
+" Set the vim editor color scheme
+:color desert
+
 " Optimize colors for a dark terminal
 set background=dark
 
@@ -109,6 +118,7 @@ set smarttab
 " Tabs are 4 spaces
 set shiftwidth=4
 set tabstop=4
+set softtabstop=4
 
 " 500 character max per line
 set lbr
@@ -123,6 +133,12 @@ set wrap
 " Movement, Tabs, Buffers, Windows
 """"
 
+" Prevent movement to the first char on the line
+set nostartofline
+
+" Quickly timeout on keycodes, but never on mappings
+set notimeout ttimeout ttimeoutlen=200
+
 " Long lines are break lines
 map j gj
 map k gk
@@ -132,6 +148,12 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+" Remap to arrows to navigate wrapped lines
+imap <silent> <Down> <C-o>gj
+imap <silent> <Up> <C-o>gk
+nmap <silent> <Down> gj
+nmap <silent> <Up> gk
 
 """"
 " Status Line
