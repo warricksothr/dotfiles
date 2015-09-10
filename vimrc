@@ -169,7 +169,9 @@ set statusline+=%m%r%h "File mode/status
 set statusline+=\ %y "File type
 set statusline+=\ %w 
 set statusline+=\ \ CWD:\ %r%{getcwd()}%h
-set statusline+=\ \ \ Line:\ %l.%c/%L
+set statusline+==%= " left/right seperator
+set statusline+=Line:\ %l.%c/%L "line and column count
+set statusline+=\ %P "percentage of document
 
 " Set the statusline color based on the current mode
 au InsertEnter * call InsertStatusLineColor(v:insertmode)
