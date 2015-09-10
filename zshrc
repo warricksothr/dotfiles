@@ -26,3 +26,7 @@ export EDITOR='vim'
 
 # Don't use the embedded shell time. Use GNU time.
 alias time="/usr/bin/time"
+
+if [ -f "$HOME/.update_dotfiles.sh" ]; then
+    /usr/bin/env sh $HOME/.update_dotfiles.sh
+fi

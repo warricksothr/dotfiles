@@ -30,3 +30,13 @@ link "$HOME" ".gitconfig" "gitconfig"
 
 # Configure .zshrc
 link "$HOME" ".zshrc" "zshrc"
+
+# Create an auto updater for the dotfiles
+if [ ! -f "$HOME/.update_dotfiles.sh" ]; then
+    echo "#!/usr/bin/env sh" > $HOME/.update_dotfiles.sh
+    echo "echo 'Updating dotfiles'" >> $HOME/.update_dotfiles.sh
+    echo "cd $PWD" >> $HOME/.update_dotfiles.sh
+    echo "git checkout master" >> $HOME/.update_dotfiles.sh
+    echo "git pull" >> $HOME/.update_dotfiles.sh
+    chmod +x $HOME/.update_dotfiles.sh
+fi
