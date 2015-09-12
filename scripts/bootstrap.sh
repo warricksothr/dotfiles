@@ -36,11 +36,37 @@ link_dir() {
 set -x
 set -e
 
-# Step out of the script directory and into the main dotfiles directory
-cd ..
+# Need to get the source for the script
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+    TARGET="$(readlink "$SOURCE")"
+    if [[ $TARGET == /* ]]; then
+        echo "SOURCE '$SOURCE' is an absolute symlink to '$TARGET'"
+        SOURCE="$TARGET"
+    else
+        DIR="$( dirname "$SOURCE" )"
+        echo "SOURCE '$SOURCE' is a relative symlink to '$TARGET' (relative to '$DIR')"
+        SOURCE="$DIR/$TARGET" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+    fi
+done
+echo "SOURCE is '$SOURCE'"
+RDIR="$( dirname "$SOURCE" )"
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+if [ "$DIR" != "$RDIR" ]; then
+    echo "DIR '$RDIR' resolves to '$DIR'"
+fi
+echo "DIR is '$DIR'"
+
+# Step into the directory where thes script is
+cd $DIR
 
 # Store the path to the root directory and the reference home directory
-DOTFILES_DIR="$PWD"
+GIT_DIR="$(echo `git rev-parse --show-toplevel`)"
+
+cd $GIT_DIR
+
+# Home directory in the git directory
+DOTFILES_DIR="$GIT_DIR"
 DOTFILES_HOME="$DOTFILES_DIR/home"
 
 # Configure .vimrc
