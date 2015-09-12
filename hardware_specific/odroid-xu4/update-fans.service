@@ -1,0 +1,6 @@
+[Unit]
+Description=update-fans
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/update-fans.sh

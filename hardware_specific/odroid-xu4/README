@@ -1,0 +1,13 @@
+Included are the the following files to more gracefully handle temperatures on the odroid xu4 running with systemd.
+
+update-fans.sh is the script that actually updates the system files for the fan. Namely the fan speed and temperature settings.
+It gets installed into /usr/local/bin/
+
+update-fans.service is the service that calls the script to update the fans
+update-fans.timer is the systemd timer that updates the fan speeds 5 seconds after systemd starts.
+
+These should be placed in /usr/lib/systemd/system or wherever your systemd services and timers are stored
+
+Finally the timer should be activated with "systemctl enable update-fans.timer".
+If you don't feel like restarting to change the fan settings immediately, you can run "systemctl start update-fans.service"
+
