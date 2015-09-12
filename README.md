@@ -9,7 +9,17 @@ standard environments.
 
 # Usage
 
-To Be Added
+scripts/bootstrap.sh is the script that does the basic linking of the dotfiles in the home directory along with the vim plugins
+
+scripts/installers/install_tools_arch.sh is a script for arch linux to install the basic tools needed on my workstations
+
+a ~/.update_dotfiles.sh script will be added to the home directory to automatically try and update the dotfiles git directory as soon as possible.
+
+More To Be Added.
+
+# Todo
+
+- [ ] Make the .update_dotfiles script smarter in how it updates
 
 # License
 
