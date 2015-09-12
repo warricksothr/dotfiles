@@ -1,12 +1,12 @@
-[submodule ".vim/bundle/nerdtree"]
-	path = .vim/bundle/nerdtree
+[submodule "home/.vim/bundle/nerdtree"]
+	path = home/.vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule ".vim/bundle/rust.vim"]
-	path = .vim/bundle/rust.vim
+[submodule "home/.vim/bundle/rust.vim"]
+	path = home/.vim/bundle/rust.vim
 	url = https://github.com/rust-lang/rust.vim.git
-[submodule ".vim/bundle/vim-markdown"]
-	path = .vim/bundle/vim-markdown
+[submodule "home/.vim/bundle/vim-markdown"]
+	path = home/.vim/bundle/vim-markdown
 	url = https://github.com/plasticboy/vim-markdown.git
-[submodule ".vim/bundle/vimoutliner"]
-	path = .vim/bundle/vimoutliner
+[submodule "home/.vim/bundle/vimoutliner"]
+	path = home/.vim/bundle/vimoutliner
 	url = https://github.com/vimoutliner/vimoutliner.git

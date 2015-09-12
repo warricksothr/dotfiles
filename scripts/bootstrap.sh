@@ -16,7 +16,7 @@ link() {
         cp "$1/$2" "$1/$2.old"
         echo "Backed up original $2 to $1/$2.old"
     fi
-    ln -sf "$PWD/$3" "$1/$2"
+    ln -sf "$3" "$1/$2"
 }
 
 link_dir() {
@@ -36,8 +36,15 @@ link_dir() {
 set -x
 set -e
 
+# Step out of the script directory and into the main dotfiles directory
+cd ..
+
+# Store the path to the root directory and the reference home directory
+DOTFILES_DIR="$PWD"
+DOTFILES_HOME="$DOTFILES_DIR/home"
+
 # Configure .vimrc
-link "$HOME" ".vimrc" "vimrc"
+link "$HOME" ".vimrc" "$DOTFILES_HOME/.vimrc"
 
 # Download pathogen if it doesn't exist already
 VIM_AUTOLOAD=$HOME/.vim/autoload
@@ -48,21 +55,24 @@ fi
 
 # Configure Pathogen Plugins
 VIM_BUNDLE=$HOME/.vim/bundle
+# Make the bundle directory and it's parents if they don't exist
 mkdir -p $VIM_BUNDLE
-plugins=($(ls -d $PWD/.vim/bundle/* | tr -s ' '))
-echo "${plugins[@]}"
+# A list of vim plugins that are submodules
+plugins=($(ls -d $DOTFILES_HOME/.vim/bundle/* | tr -s ' '))
+#echo "${plugins[@]}"
+# Loop through all of the plugins and install them as links in the bundle directory
 for plugin in ${plugins[@]}; do
     parts=($(echo "$plugin" | tr '/' ' '))
     plugin_name=${parts[-1]}
-    echo "$VIM_BUNDLE $plugin_name $plugin"
+    #echo "$VIM_BUNDLE $plugin_name $plugin"
     link_dir $VIM_BUNDLE $plugin_name $plugin
 done
 
 # Configure .gitconfig
-link "$HOME" ".gitconfig" "gitconfig"
+link "$HOME" ".gitconfig" "$DOTFILES_HOME/.gitconfig"
 
 # Configure .zshrc
-link "$HOME" ".zshrc" "zshrc"
+link "$HOME" ".zshrc" "$DOTFILES_HOME/.zshrc"
 
 # Create an auto updater for the dotfiles
 if [ ! -f "$HOME/.update_dotfiles.sh" ]; then
