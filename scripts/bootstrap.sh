@@ -33,6 +33,12 @@ link_dir() {
     fi
 }
 
+# Escape the path so we can use it in sed
+escape_path() {
+    local safe="$(echo $1 | sed 's/\//\\\//g')"
+    echo $safe
+}
+
 set -x
 set -e
 
@@ -100,14 +106,31 @@ link "$HOME" ".gitconfig" "$DOTFILES_HOME/.gitconfig"
 # Configure .zshrc
 link "$HOME" ".zshrc" "$DOTFILES_HOME/.zshrc"
 
+cd $GIT_DIR
+
 # Create an auto updater for the dotfiles
+SOURCE_MD5="$(md5sum scripts/.update_dotfiles.sh | tr -s ' ' | cut -d ' ' -f 1)"
+WRITE_NEW_UPDATER=false
+# If it doesn't exist, we need to create it
 if [ ! -f "$HOME/.update_dotfiles.sh" ]; then
-    echo "#!/usr/bin/env sh" > $HOME/.update_dotfiles.sh
-    echo "echo 'Updating dotfiles'" >> $HOME/.update_dotfiles.sh
-    echo "cd $PWD" >> $HOME/.update_dotfiles.sh
-    echo "git checkout master" >> $HOME/.update_dotfiles.sh
-    echo "git pull" >> $HOME/.update_dotfiles.sh
-    echo "git submodule init" >> $HOME/.update_dotfiles.sh
-    echo "git submodule update" >> $HOME/.update_dotfiles.sh
+    WRITE_NEW_UPDATER=true
+else
+    # Now we need to check if the md5's don't match
+    CURRENT_MD5="$(cat $HOME/.update_dotfiles.sh | tail -n 1 | tr -s ' ' | cut -d ' ' -f 2)"
+    # No hash, we need to update the file
+    if [ -z "$CURRENT_MD5" ]; then
+        WRITE_NEW_UPDATER=true
+    else
+        # need to compare the hashes, if they don't match we need to update
+        if [ "$CURRENT_MD5" != "$SOURCE_MD5" ]; then
+            WRITE_NEW_UPDATER=true
+        fi
+    fi
+fi
+
+if $WRITE_NEW_UPDATER; then
+    SAFE_PATH="$(escape_path $GIT_DIR)"
+    cat "scripts/.update_dotfiles.sh" | sed "s/@GIT_DIR@/$SAFE_PATH/" > $HOME/.update_dotfiles.sh
+    echo "# $SOURCE_MD5" >> $HOME/.update_dotfiles.sh
     chmod +x $HOME/.update_dotfiles.sh
 fi
