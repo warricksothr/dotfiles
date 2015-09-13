@@ -5,7 +5,8 @@ opwd=$PWD
 cd @GIT_DIR@
 
 # Update the status of the origin
-git remote update origin
+# No need to print the result, this should be silent and invisible
+git remote update origin 1>/dev/null
 
 # Check if we need to update at all
 # Kindly borrowed from http://stackoverflow.com/questions/3258243/git-check-if-pull-needed
@@ -13,14 +14,18 @@ LOCAL=$(git rev-parse @)
 REMOTE=$(git rev-parse @{u})
 BASE=$(git merge-base @ @{u})
 
+# Exit if for some reason we don't get info from the remote.
+if [ -z "$REMOTE" ]; then
+    exit 0
+fi
+
 # All good, no need to update
 if [ $LOCAL = $REMOTE ]; then
-    echo "Up-to-date"
+    # No need to declare anything while we do this
     exit 0
 # Time to update to the remote branch
 elif [ $LOCAL = $BASE ]; then
-    echo "Need to pull"
-    echo 'Updating dotfiles'
+    echo "Updating dotfiles in: $PWD"
     git checkout master
     git pull
     git submodule update
