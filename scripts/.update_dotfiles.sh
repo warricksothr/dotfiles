@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+# Need to move into the git directory to perform the checks
+opwd=$PWD
+cd @GIT_DIR@
+
 # Update the status of the origin
 git remote update origin
 
@@ -17,12 +21,9 @@ if [ $LOCAL = $REMOTE ]; then
 elif [ $LOCAL = $BASE ]; then
     echo "Need to pull"
     echo 'Updating dotfiles'
-    opwd=$PWD
-    cd @GIT_DIR@
     git checkout master
     git pull
     git submodule update
-    cd $owpd
 # Local changes exist, we need to push these before we can cleanly update
 elif [ $REMOTE = $BASE ]; then
     echo "Local changes, need to push before updating."
@@ -32,3 +33,6 @@ else
     echo "Error: Diverged Branches. Resolve Manually"
     exit 1
 fi
+
+# Return to where we started incase this was sourced from another script
+cd $owpd
