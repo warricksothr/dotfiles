@@ -5,6 +5,9 @@
 # the provided ones already on the system. This script will backup any of the
 # existing dot files, before linking to the ones in this repository.
 #
+# This script must be able to operate cleanly on an already bootstraped environment
+# so as to update the system cleanly to new versions of the dotfiles repository.
+#
 
 # Helper Functions
 

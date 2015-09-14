@@ -2,7 +2,8 @@
 
 # Need to move into the git directory to perform the checks
 opwd=$PWD
-cd @GIT_DIR@
+GIT_DIR="@GIT_DIR@"
+cd $GIT_DIR
 
 # Update the status of the origin
 # No need to print the result, this should be silent and invisible
@@ -29,6 +30,10 @@ elif [ $LOCAL = $BASE ]; then
     git checkout master
     git pull
     git submodule update
+
+    #Since we updated, we should execute the bootstrapper again.
+    . $GIT_DIR/scripts/bootstrap.sh
+
 # Local changes exist, we need to push these before we can cleanly update
 elif [ $REMOTE = $BASE ]; then
     echo "Local changes, need to push before updating."
