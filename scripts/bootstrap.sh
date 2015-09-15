@@ -69,9 +69,11 @@ clone_git_repo() {
     local repo=$2
     if [ ! -d "$target" ]; then
         mkdir -p "$target"
+        echo "Cloning [$repo] into [$target]"
         git clone "$repo" "$target"
     else
         # Update the repo otherwise
+        echo "Updating [$repo]"
         cur_dir=$PWD
         cd "$target"
         git checkout .
