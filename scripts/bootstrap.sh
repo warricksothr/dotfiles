@@ -36,6 +36,27 @@ link_dir() {
     fi
 }
 
+copy_dir() {
+    # Only make a backup if an existing directory is there and is not a link
+    if [ -d "$1/$2" ] && [ ! -L "$1/$2" ]; then
+        # Allow passing true as third param to do backups
+        backup=true
+        if [ ! -z "$3" ]; then
+            backup=$4
+        fi
+        if $backup; then
+            mv "$1/$2" "$1/$2.old"
+            echo "Backed up original $2 to $1/$2.old"
+        else
+            rm -r "$1/$2"
+            echo "removed original $2"
+        fi
+    fi
+    # Should probably only do this is the source is newer
+    # Remove the old and copy the new
+    cp -r "$3" "$1/$2"
+}
+
 # Escape the path so we can use it in sed
 escape_path() {
     local safe="$(echo $1 | sed 's/\//\\\//g')"
@@ -100,7 +121,7 @@ for plugin in ${plugins[@]}; do
     parts=($(echo "$plugin" | tr '/' ' '))
     plugin_name=${parts[-1]}
     #echo "$VIM_BUNDLE $plugin_name $plugin"
-    link_dir $VIM_BUNDLE $plugin_name $plugin
+    copy_dir $VIM_BUNDLE $plugin_name $plugin false
 done
 
 # Configure .gitconfig
