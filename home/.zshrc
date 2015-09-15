@@ -25,7 +25,9 @@ export LANG=en_US.UTF-8
 export EDITOR='vim'
 
 # Don't use the embedded shell time. Use GNU time.
-alias time="/usr/bin/time --format='Command:%C \nElapsed Time: %E\nUser Time: %U\nSystem Time: %S\nCPU: %P\nMax Memory: %MKb\nAverage Memory: %KKb\nAverage Unshared Memory: %DKb\nNumber of Swaps: %W\nNumber of Waits: %w\nExit Status: %x'"
+alias time="/usr/bin/time"
+# Alias for GNU Time with pretty output.
+alias ti="/usr/bin/time --format='Command:%C \nElapsed Time: %E\nUser Time: %U\nSystem Time: %S\nCPU: %P\nMax Memory: %MKb\nAverage Memory: %KKb\nAverage Unshared Memory: %DKb\nNumber of Swaps: %W\nNumber of Waits: %w\nExit Status: %x'"
 alias rename="noglob rename"
 
 if [ -f "$HOME/.update_dotfiles.sh" ]; then
