@@ -38,7 +38,7 @@ link_dir() {
 
 copy_dir() {
     # Only make a backup if an existing directory is there and is not a link
-    if [ -d "$1/$2" ] && [ ! -L "$1/$2" ]; then
+    if [ -d "$1/$2" ] || [ -L "$1/$2" ]; then
         # Allow passing true as third param to do backups
         backup=true
         if [ ! -z "$3" ]; then
