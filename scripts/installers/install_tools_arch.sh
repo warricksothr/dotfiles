@@ -13,7 +13,7 @@ sudo pacman -Syu
 # Install the development requirements so we can use aur packages
 sudo pacman -S --needed base-devel
 # System basics for everything after this point
-sudo pacman -S curl wget git zsh vim tmux
+sudo pacman -S curl wget git zsh vim tmux openssh mosh
 
 # Install OhMyZSH
 mkdir -p $HOME/build/oh-my-zsh
