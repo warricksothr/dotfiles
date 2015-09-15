@@ -63,6 +63,23 @@ escape_path() {
     echo $safe
 }
 
+# Clone a git repository into a location 
+clone_git_repo() {
+    local target=$1
+    local repo=$2
+    if [ ! -d "$target" ]; then
+        mkdir -p "$target"
+        git clone "$repo" "$target"
+    else
+        # Update the repo otherwise
+        cur_dir=$PWD
+        cd "$target"
+        git checkout .
+        git pull
+        cd $cur_dir
+    fi
+}
+
 set -x
 set -e
 
@@ -129,6 +146,13 @@ link "$HOME" ".gitconfig" "$DOTFILES_HOME/.gitconfig"
 
 # Configure .zshrc
 link "$HOME" ".zshrc" "$DOTFILES_HOME/.zshrc"
+
+clone_git_repo $HOME/.tmux/plugins/tpm https://github.com/tmux-plugins/tpm.git
+clone_git_repo $HOME/.tmux/plugins/tmux-sensible https://github.com/tmux-plugins/tmux-sensible.git
+clone_git_repo $HOME/.tmux/plugins/tmux-resurrect https://github.com/tmux-plugins/tmux-resurrect.git
+
+# Configure .tmux.conf
+link "$HOME" ".tmux.conf" "$DOTFILES_HOME/.tmux.conf"
 
 cd $GIT_DIR
 
