@@ -1,5 +1,5 @@
 " Call pathogen if it's installed
-call pathogen#infect("bundle/{}")
+call pathogen#infect()
 
 """"
 " General Settings

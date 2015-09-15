@@ -31,6 +31,7 @@ elif [ $LOCAL = $BASE ]; then
     echo "Updating dotfiles in: $PWD"
     git checkout master
     git pull
+    git submodule init
     git submodule update
 
     #Since we updated, we should execute the bootstrapper again.
