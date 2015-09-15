@@ -10,3 +10,6 @@
 [submodule "home/.vim/bundle/vimoutliner"]
 	path = home/.vim/bundle/vimoutliner
 	url = https://github.com/vimoutliner/vimoutliner.git
+[submodule "home/.vim/bundle/headlights"]
+	path = home/.vim/bundle/headlights
+	url = https://github.com/mbadran/headlights.git
