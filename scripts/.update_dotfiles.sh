@@ -1,4 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+ENV=/usr/bin/env
 
 # Need to move into the git directory to perform the checks
 opwd=$PWD
@@ -32,7 +34,7 @@ elif [ $LOCAL = $BASE ]; then
     git submodule update
 
     #Since we updated, we should execute the bootstrapper again.
-    . $GIT_DIR/scripts/bootstrap.sh
+    $ENV bash $GIT_DIR/scripts/bootstrap.sh
 
 # Local changes exist, we need to push these before we can cleanly update
 elif [ $REMOTE = $BASE ]; then
