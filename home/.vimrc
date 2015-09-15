@@ -1,3 +1,6 @@
+" Call pathogen if it's installed
+execute pathogen#infect(bundle/{})
+
 """"
 " General Settings
 """"
@@ -221,7 +224,4 @@ function! HasPaste()
     endif
     return ''
 endfunction
-
-" Call pathogen if it's installed
-call pathogen#infect()
 
