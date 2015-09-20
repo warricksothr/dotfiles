@@ -4,7 +4,7 @@ set -x
 set -e
 
 env=/usr/bin/env
-opwd-$PWD
+opwd=$PWD
 
 cd $HOME
 
