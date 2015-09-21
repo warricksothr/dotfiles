@@ -10,4 +10,7 @@ bench_exec="sysbench"
 bench_var="--num-threads=$procs"
 bench="$bench_exec $benc_var"
 
-$bench --test=threads run
+machine_ident="$(uname -nmo | sed 's/ /_/g' | sed 's/\//\./g')_$(cat /var/lib/dbus/machine-id)"
+logfile="$PWD/results/$(date -Idate)_${machine_ident}.log"
+touch $logfile
+$bench --test=threads run | tee -ai $logfile
