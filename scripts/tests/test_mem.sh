@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -z $1 ]; then 
+if [ -z "$1" ] && [ -z "$procs" ]; then 
     procs=1
 else
     procs=$1
@@ -13,4 +13,4 @@ bench="$bench_exec $benc_var"
 machine_ident="$(uname -nmo | sed 's/ /_/g' | sed 's/\//\./g')_$(cat /var/lib/dbus/machine-id)"
 logfile="$PWD/results/$(date -Idate)_${machine_ident}.log"
 touch $logfile
-$bench --test=mem run | tee -ai $logfile
+$bench $bench_var --test=mem run | tee -ai $logfile

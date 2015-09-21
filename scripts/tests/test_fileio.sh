@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -z $1 ]; then 
+if [ -z "$1" ] && [ -z "$procs" ]; then 
     procs=1
 else
     procs=$1
@@ -15,9 +15,9 @@ logfile="$PWD/results/$(date -Idate)_${machine_ident}.log"
 mkdir -p tmp
 cd tmp
 touch $logfile
-$bench --test=fileio --file-test-mode=seqwr run | tee -ai $logfile
+$bench $bench_var --test=fileio --file-test-mode=seqwr run | tee -ai $logfile
 free && sync && sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches' && free
-$bench --test=fileio --file-test-mode=seqrd run | tee -ai $logfile
+$bench $bench_var --test=fileio --file-test-mode=seqrd run | tee -ai $logfile
 rm -f test_file.*
 #$bench --test=fileio --file-test-mode=rndwr run
 #$bench --test=fileio --file-test-mode=rndrd run
