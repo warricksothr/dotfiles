@@ -22,6 +22,35 @@ link() {
     ln -sf "$3" "$1/$2"
 }
 
+copy() {
+    # Only make a backup if an existing directory is there and is not a link
+    if [ -f "$1/$2" ] || [ -L "$1/$2" ]; then
+        # Allow passing true as third param to do backups
+        backup=true
+        if [ ! -z "$4" ]; then
+            backup=$4
+        fi
+        overwrite=false
+        if [ ! -z "$5" ]; then
+            overwrite=$5
+        fi
+        if $backup; then
+            mv "$1/$2" "$1/$2.old"
+            echo "Backed up original $2 to $1/$2.old"
+        else
+            if $overwrite; then
+                rm -r "$1/$2"
+                echo "removed original $2"
+            fi
+        fi
+    fi
+    # Should probably only do this is the source is newer
+    # Remove the old and copy the new
+    if $overwrite; then
+        cp -r "$3" "$1/$2"
+    fi
+}
+
 link_dir() {
     # Only make a backup if an existing directory is there and is not a link
     if [ -d "$1/$2" ] && [ ! -L "$1/$2" ]; then
@@ -155,6 +184,9 @@ clone_git_repo $HOME/.tmux/plugins/tmux-resurrect https://github.com/tmux-plugin
 
 # Configure .tmux.conf
 link "$HOME" ".tmux.conf" "$DOTFILES_HOME/.tmux.conf"
+
+# Copy example ssh config
+copy "$HOME" ".ssh/config" "$DOTFILES_HOME/.ssh/config" false false
 
 cd $GIT_DIR
 
