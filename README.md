@@ -19,7 +19,7 @@ More To Be Added.
 
 # Todo
 
-- [ ] Make the .update_dotfiles script smarter in how it updates
+- [x] Make the .update_dotfiles script smarter in how it updates
 
 # License
 
