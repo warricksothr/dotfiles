@@ -172,6 +172,20 @@ for plugin in ${plugins[@]}; do
     copy_dir $VIM_BUNDLE $plugin_name $plugin false
 done
 
+# Configure emacs
+EMACS_CONFIG_HOME=$HOME/.emacs.d
+mkdir -p $EMACS_CONFIG_HOME
+emacs_configs=($(ls -d $DOTFILES_HOME/.emacs.d/*))
+for emacs_config in ${emacs_configs[@]}; do
+    parts=($(echo "$emacs_config" | tr '/' ' '))
+    emacs_config_name=${parts[-1]}
+    if [ -d $emacs_config ]; then
+        link_dir $EMACS_CONFIG_HOME $emacs_config_name $emacs_config
+    else
+        link $EMACS_CONFIG_HOME $emacs_config_name $emacs_config
+    fi
+done
+
 # Configure .gitconfig
 link "$HOME" ".gitconfig" "$DOTFILES_HOME/.gitconfig"
 
