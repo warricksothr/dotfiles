@@ -9,6 +9,7 @@
 (load "package")
 (package-initialize)
 (defvar sothr/packages '(auto-complete
+			 cyberpunk-theme
 			 gist
 			 markdown-mode
 			 yaml-mode)
@@ -32,3 +33,5 @@
   (dolist (pkg sothr/packages)
     (when (not (package-installed-p pkg))
       (package-install pkg))))
+
+(load-theme 'cyberpunk t)
