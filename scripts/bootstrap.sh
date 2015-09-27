@@ -24,16 +24,16 @@ link() {
 
 copy() {
     # Only make a backup if an existing directory is there and is not a link
+    # Allow passing true as third param to do backups
+    backup=true
+    if [ ! -z "$4" ]; then
+        backup=$4
+    fi
+    overwrite=false
+    if [ ! -z "$5" ]; then
+        overwrite=$5
+    fi
     if [ -f "$1/$2" ] || [ -L "$1/$2" ]; then
-        # Allow passing true as third param to do backups
-        backup=true
-        if [ ! -z "$4" ]; then
-            backup=$4
-        fi
-        overwrite=false
-        if [ ! -z "$5" ]; then
-            overwrite=$5
-        fi
         if $backup; then
             mv "$1/$2" "$1/$2.old"
             echo "Backed up original $2 to $1/$2.old"
@@ -201,6 +201,16 @@ link "$HOME" ".tmux.conf" "$DOTFILES_HOME/.tmux.conf"
 
 # Copy example ssh config
 copy "$HOME" ".ssh/config" "$DOTFILES_HOME/.ssh/config" false false
+
+# Copy the systemd user files from .config
+SYSTEMD_CONFIG_HOME=$HOME/.config/systemd/user
+mkdir -p $SYSTEMD_CONFIG_HOME
+systemd_configs=($(ls -d $DOTFILES_HOME/.config/systemd/user/*.service))
+for systemd_config in ${systemd_configs[@]}; do
+    parts=($(echo "$systemd_config" | tr '/' ' '))
+    systemd_config_name=${parts[-1]}
+    copy $SYSTEMD_CONFIG_HOME $systemd_config_name $systemd_config true true
+done
 
 cd $GIT_DIR
 
