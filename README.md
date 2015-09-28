@@ -20,6 +20,7 @@ More To Be Added.
 # Todo
 
 - [x] Make the .update_dotfiles script smarter in how it updates
+- [] Work on emacs configuration
 
 # License
 
