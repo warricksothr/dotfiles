@@ -24,11 +24,11 @@
 (setq package-archive-enable-alist '(("melpa" deft magit)))
 
 ;; Advice from the melpa site for a package dependency validation error in emacs 24
-(defadvice package-compute-transaction
-  (before package-compute-transaction-reverse (package-list requirements) activate compile)
-    "reverse the requirements"
-    (setq requirements (reverse requirements))
-    (print requirements))
+;;(defadvice package-compute-transaction
+;;  (before package-compute-transaction-reverse (package-list requirements) activate compile)
+;;    "reverse the requirements"
+;;    (setq requirements (reverse requirements))
+;;    (print requirements))
 
 ;; Make sure default packages are installed
 (defun sothr/packages-installed-p ()
