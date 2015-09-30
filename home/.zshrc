@@ -30,6 +30,12 @@ alias time="/usr/bin/time"
 alias ti="/usr/bin/time --format='Command:%C \nElapsed Time: %E\nUser Time: %U\nSystem Time: %S\nCPU: %P\nMax Memory: %MKb\nAverage Memory: %KKb\nAverage Unshared Memory: %DKb\nNumber of Swaps: %W\nNumber of Waits: %w\nExit Status: %x'"
 alias rename="noglob rename"
 
+if [ -d "$HOME/.linuxbrew" ]; then
+    export PATH="$HOME/.linuxbrew/bin:$PATH"
+    export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+    export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+fi
+
 if [ -f "$HOME/.update_dotfiles.sh" ]; then
     /usr/bin/env sh $HOME/.update_dotfiles.sh
 fi
