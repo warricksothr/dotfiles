@@ -14,6 +14,8 @@
 			 magit
 			 markdown-mode
 			 projectile
+             go-mode
+             rust-mode
 			 yaml-mode)
   "Default packages")
 

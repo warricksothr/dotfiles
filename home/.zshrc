@@ -35,6 +35,10 @@ if [ -d "$HOME/.linuxbrew" ]; then
     export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 fi
 
+# Go Setup
+export GOPATH="$HOME/go"
+export PATH="$PATH:$HOME/go/bin"
+
 if [ -f "$HOME/.update_dotfiles.sh" ]; then
     /usr/bin/env sh $HOME/.update_dotfiles.sh
 fi
