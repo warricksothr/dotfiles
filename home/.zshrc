@@ -28,7 +28,6 @@ export EDITOR='vim'
 alias time="/usr/bin/time"
 # Alias for GNU Time with pretty output.
 alias ti="/usr/bin/time --format='Command:%C \nElapsed Time: %E\nUser Time: %U\nSystem Time: %S\nCPU: %P\nMax Memory: %MKb\nAverage Memory: %KKb\nAverage Unshared Memory: %DKb\nNumber of Swaps: %W\nNumber of Waits: %w\nExit Status: %x'"
-alias rename="noglob rename"
 
 if [ -d "$HOME/.linuxbrew" ]; then
     export PATH="$HOME/.linuxbrew/bin:$PATH"
