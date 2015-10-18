@@ -105,6 +105,9 @@ link "$HOME" ".tmux.conf" "$DOTFILES_HOME/.tmux.conf"
 # Copy example ssh config
 copy "$HOME" ".ssh/config" "$DOTFILES_HOME/.ssh/config" false false
 
+# Copy yaourtrc config
+link "$HOME" ".yaourtrc" "$DOTFILES_HOME/.yaourtrc"
+
 # Copy the systemd user files from .config
 SYSTEMD_CONFIG_HOME=$HOME/.config/systemd/user
 mkdir -p $SYSTEMD_CONFIG_HOME
