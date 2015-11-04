@@ -95,9 +95,9 @@ link "$HOME" ".gitconfig" "$DOTFILES_HOME/.gitconfig"
 # Configure .zshrc
 link "$HOME" ".zshrc" "$DOTFILES_HOME/.zshrc"
 
-clone_git_repo $HOME/.tmux/plugins/tpm https://github.com/tmux-plugins/tpm.git
-clone_git_repo $HOME/.tmux/plugins/tmux-sensible https://github.com/tmux-plugins/tmux-sensible.git
-clone_git_repo $HOME/.tmux/plugins/tmux-resurrect https://github.com/tmux-plugins/tmux-resurrect.git
+clone_or_update_git_repo $HOME/.tmux/plugins/tpm https://github.com/tmux-plugins/tpm.git
+clone_or_update_git_repo $HOME/.tmux/plugins/tmux-sensible https://github.com/tmux-plugins/tmux-sensible.git
+clone_or_update_git_repo $HOME/.tmux/plugins/tmux-resurrect https://github.com/tmux-plugins/tmux-resurrect.git
 
 # Configure .tmux.conf
 link "$HOME" ".tmux.conf" "$DOTFILES_HOME/.tmux.conf"
@@ -118,6 +118,12 @@ for systemd_config in ${systemd_configs[@]}; do
     copy $SYSTEMD_CONFIG_HOME $systemd_config_name $systemd_config true true
 done
 
+# Install/update rbenv and plugins
+clone_or_update_git_repo $HOME/.rbenv https://github.com/sstephenson/rbenv.git
+clone_or_update_git_repo $HOME/.rbenv/plugins/ruby-build https://github.com/sstephenson/ruby-build.git
+
+# <-- EDIT/ADD ABOVE THIS
+# This should be the Last section 
 cd $GIT_DIR
 
 # Create an auto updater for the dotfiles

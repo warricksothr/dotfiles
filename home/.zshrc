@@ -42,3 +42,9 @@ export PATH="$PATH:$HOME/go/bin"
 if [ -f "$HOME/.update_dotfiles.sh" ]; then
     /usr/bin/env sh $HOME/.update_dotfiles.sh
 fi
+
+# rbenv setup
+if [ -d "$HOME/.rbenv" ]; then
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+fi

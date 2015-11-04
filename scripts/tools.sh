@@ -83,8 +83,9 @@ escape_path() {
     echo $safe
 }
 
-# Clone a git repository into a location 
-clone_git_repo() {
+# Clone a git repository into a location
+# Or update an existing repository
+clone_or_update_git_repo() {
     local target=$1
     local repo=$2
     if [ ! -d "$target" ]; then
