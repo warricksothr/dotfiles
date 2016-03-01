@@ -14,6 +14,7 @@
 			 magit
 			 markdown-mode
 			 projectile
+             slime
              go-mode
              rust-mode
 			 yaml-mode)
