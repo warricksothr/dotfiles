@@ -9,14 +9,20 @@
 (load "package")
 (package-initialize)
 (defvar sothr/packages '(auto-complete
+			 better-defaults
 			 cyberpunk-theme
 			 gist
 			 magit
 			 markdown-mode
+			 org
+			 org-ac
+			 org-autolist
+			 org-bullets
+			 org-doing
 			 projectile
-             slime
-             go-mode
-             rust-mode
+			 slime
+			 go-mode
+			 rust-mode
 			 yaml-mode)
   "Default packages")
 
@@ -50,5 +56,22 @@
 ;; Default configuration for auto-complete
 (ac-config-default)
 
+;; Make all files show a linenum
+(global-linum-mode)
+
 ;; Load my default theme
 (load-theme 'cyberpunk t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (org-doing org-bullets org-autolist org-ac better-defaults yaml-mode slime rust-mode projectile markdown-mode magit go-mode gist cyberpunk-theme auto-complete))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
