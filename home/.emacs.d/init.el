@@ -2,6 +2,11 @@
 (setq user-full-name "Drew Short")
 (setq user-email-address "warrick@sothr.com")
 
+;; Set UTF-8 as the default encoding
+(prefer-coding-system 'utf-8)
+(setq coding-system-for-read 'utf-8)
+(setq coding-system-for-write 'utf-8)
+
 ;; Load common lisp
 (require 'cl)
 
