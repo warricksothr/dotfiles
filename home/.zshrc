@@ -24,6 +24,18 @@ export LANG=en_US.UTF-8
 # All Hail VIM
 export EDITOR='vim'
 
+# Add something to something else
+# $1 is the original value being appended to
+# $2 is the seperator
+# $3 is what we should add as long as it has some value
+function append_if_exists() {
+    result="$1"
+    if [ ! -z "$1" ] && [ ! -z "$2" ] && [ ! -z "$3" ]; then
+        result="${result}${2}${3}"
+    fi
+    echo $result
+}
+
 # Don't use the embedded shell time. Use GNU time.
 alias time="/usr/bin/time"
 # Alias for GNU Time with pretty output.
@@ -42,10 +54,8 @@ export PATH="$PATH:$HOME/go/bin"
 # CL Setup
 # if SBCL is installed point to that path
 sbcl_bin="$(which sbcl 2> /dev/null | head -n 1)"
-if [[ ${sbcl_bin:0:4} == "sbcl" ]]; then
+if [[ ${sbcl_bin:0:4} != "sbcl" ]]; then
     # Handle a case where sbcl is not installed
-    CL_BIN=
-else
     CL_BIN=$sbcl_bin
 fi
 
@@ -55,7 +65,13 @@ fi
 
 # rbenv setup
 # # doesn't work under msys
-if [ -d "$HOME/.rbenv" -a -z "$MSYSTEM" ]; then
+if [ -d "$HOME/.rbenv" ] && [ -z "$MSYSTEM" ]; then
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
+fi
+
+# MSYS Specific Configuration
+if [ ! -z "$MSYSTEM" ] && [[ "$MSYSTEM" == "MSYS" ]]; then
+    # Make sure msys has our CL on the path
+    export PATH=$(append_if_exists $PATH ":" $(dirname "$CL_BIN"))
 fi
