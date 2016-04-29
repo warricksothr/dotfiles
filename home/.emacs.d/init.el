@@ -59,6 +59,11 @@
 ;; Make all files show a linenum
 (global-linum-mode)
 
+;; Configure SLIME
+;; Inferior Lisp interpreter is found at $CL_BIN
+(setq inferior-lisp-program (getenv "CL_BIN"))
+(setq slime-contribs '(slime-fancy))
+
 ;; Load my default theme
 (load-theme 'cyberpunk t)
 (custom-set-variables

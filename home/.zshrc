@@ -39,6 +39,16 @@ fi
 export GOPATH="$HOME/go"
 export PATH="$PATH:$HOME/go/bin"
 
+# CL Setup
+# if SBCL is installed point to that path
+sbcl_bin="$(which sbcl 2> /dev/null | head -n 1)"
+if [[ ${sbcl_bin:0:4} == "sbcl" ]]; then
+    # Handle a case where sbcl is not installed
+    CL_BIN=
+else
+    CL_BIN=$sbcl_bin
+fi
+
 if [ -f "$HOME/.update_dotfiles.sh" ]; then
     /usr/bin/env sh $HOME/.update_dotfiles.sh
 fi
