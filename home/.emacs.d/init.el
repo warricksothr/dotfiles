@@ -58,6 +58,17 @@
     (when (not (package-installed-p pkg))
       (package-install pkg))))
 
+;; Markdown Mode Configuration
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+;; Set the markdown processor to grip
+;; pip3 install grip
+(setq markdown-command "grip --export -")
+
 ;; Default configuration for auto-complete
 (ac-config-default)
 
