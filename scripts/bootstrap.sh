@@ -14,7 +14,7 @@ BASEDIR=$(dirname $0)
 # Source the tools script
 . ${BASEDIR}/tools.sh
 
-set -x
+#set -x
 set -e
 
 # Need to get the source for the script
