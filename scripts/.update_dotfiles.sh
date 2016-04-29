@@ -47,5 +47,7 @@ else
     exit 1
 fi
 
+echo "Finished dotfiles update check!"
+
 # Return to where we started incase this was sourced from another script
 cd $owpd
