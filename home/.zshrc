@@ -54,7 +54,8 @@ if [ -f "$HOME/.update_dotfiles.sh" ]; then
 fi
 
 # rbenv setup
-if [ -d "$HOME/.rbenv" ]; then
+# # doesn't work under msys
+if [ -d "$HOME/.rbenv" -a -z "$MSYSTEM" ]; then
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init -)"
 fi
