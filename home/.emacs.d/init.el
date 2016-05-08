@@ -19,7 +19,8 @@
 			 gist
 			 magit
 			 markdown-mode
-			 org
+                         neotree
+                         org
 			 org-ac
 			 org-autolist
 			 org-bullets
@@ -69,6 +70,9 @@
 ;; pip3 install grip
 (setq markdown-command "grip --export -")
 
+;; Set NeoTree to toggle with F8
+(global-set-key [f8] 'neotree-toggle)
+
 ;; Default configuration for auto-complete
 (ac-config-default)
 
@@ -79,9 +83,56 @@
 ;; Inferior Lisp interpreter is found at $CL_BIN
 (setq inferior-lisp-program (getenv "CL_BIN"))
 (setq slime-contribs '(slime-fancy))
-
+  
 ;; Load my default theme
-(load-theme 'cyberpunk t)
+;(load-theme 'cyberpunk t)
+
+;; A method create a lambda that switches between
+;; themes with the press of a button
+;; Emcas requires explicit closures otherwise they're
+;; abandoned at runtime and cryptic errors occur
+(let ((next nil) (themes nil))
+      (defun make-theme-switcher (theme_list)
+        (setf themes theme_list)
+        #'(lambda ()
+            (setf next (pop themes))
+            ;; Move the first entry in the list to the last
+            (setf themes (append themes (list next)))
+            ;; Load the theme that was next in the list
+            (load-theme next t))))
+
+;; create a function to loop over and apply themes
+(setf load-next-theme (make-theme-switcher '(cyberpunk adwaita)))
+
+;; Load the first theme as the default theme
+(funcall load-next-theme)
+
+;; Toggle theme switch with F3
+(global-set-key [f3] (lambda ()
+                       (interactive)
+                       (funcall load-next-theme)))
+
+;; Windows specific configuration
+;; A Linux environment is assumed by default
+(defun windows-config ()
+  ;; When running in Windows, we want to use an alternate shell so we
+  ;; can be more unixy.
+  (setq shell-file-name "c:/Tools/msys64/usr/bin/zsh")
+  (setq explicit-shell-file-name shell-file-name)
+  (setq explicit-zsh-args '("--login" "-i")) ; Make sure the shell is in the home
+  (setenv "HOME" "c:/tools/msys64/home/neria") ; Set the home environment correctly
+  (setenv "PATH"
+    (concat ".:/usr/local/bin:/msys64/bin:/bin:"
+      (replace-regexp-in-string " " "\\\\ "
+        (replace-regexp-in-string "\\\\" "/"
+          (replace-regexp-in-string "\\([A-Za-z]\\):" "/\\1"
+            (getenv "PATH")))))))
+
+;; Windows specific configurations
+; (cond
+;  ((string-equal system-type "windows-nt") ; MS Windows System
+;   (windows-config)))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
