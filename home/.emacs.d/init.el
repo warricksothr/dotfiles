@@ -13,24 +13,37 @@
 ;; Package management
 (load "package")
 (package-initialize)
-(defvar sothr/packages '(auto-complete
-			 better-defaults
-			 cyberpunk-theme
-			 gist
-			 magit
-			 markdown-mode
-                         neotree
-                         org
-			 org-ac
-			 org-autolist
-			 org-bullets
-			 org-doing
-			 projectile
-			 slime
-			 go-mode
-			 rust-mode
-			 yaml-mode)
-  "Default packages")
+
+;; Theme packages
+(defvar sothr/themes '(cyberpunk-theme) "Themes")
+
+;; Tool packages
+(defvar sothr/tools '(auto-complete
+                      better-defaults
+                      gist
+                      projectile
+                      magit
+                      neotree
+                      slime)
+  "Tools")
+
+;; Additional mode packages
+(defvar sothr/modes '(markdown-mode
+                      go-mode
+                      rust-mode
+                      yaml-mode)
+  "Modes")
+
+;; Org mode specific packages
+(defvar sothr/org '(org
+                    org-ac
+                    org-autolist
+                    org-bullets
+                    org-doing)
+  "Org Mode Packages")
+
+;; Combine the package lists
+(defvar sothr/packages (append sothr/packages sothr/tools sothr/modes) "Default Packages")
 
 ;; Repositories
 (add-to-list 'package-archives
@@ -83,9 +96,6 @@
 ;; Inferior Lisp interpreter is found at $CL_BIN
 (setq inferior-lisp-program (getenv "CL_BIN"))
 (setq slime-contribs '(slime-fancy))
-  
-;; Load my default theme
-;(load-theme 'cyberpunk t)
 
 ;; A method create a lambda that switches between
 ;; themes with the press of a button
