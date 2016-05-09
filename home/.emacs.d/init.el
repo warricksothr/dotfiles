@@ -43,7 +43,7 @@
   "Org Mode Packages")
 
 ;; Combine the package lists
-(defvar sothr/packages (append sothr/packages sothr/tools sothr/modes) "Default Packages")
+(defvar sothr/packages (append sothr/tools sothr/modes sothr/org) "Default Packages")
 
 ;; Repositories
 (add-to-list 'package-archives
