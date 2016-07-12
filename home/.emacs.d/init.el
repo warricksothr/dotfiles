@@ -89,8 +89,26 @@
 ;; Default configuration for auto-complete
 (ac-config-default)
 
-;; Make all files show a linenum
+;; Make all files show a line number
 (global-linum-mode)
+;; Make sure that there is spacing in linum mode
+;(setq linum-format "%4d \u2502 ")  ;; Fancy line with vertical bar
+;; Dynamic width for lines for convienient right justification
+(unless window-system
+  (add-hook 'linum-before-numbering-hook
+	    (lambda ()
+	      (setq-local linum-format-fmt
+			  (let ((w (length (number-to-string
+					    (count-lines (point-min) (point-max))))))
+			    (concat "%" (number-to-string w) "d"))))))
+
+(defun linum-format-func (line)
+  (concat
+   (propertize (format linum-format-fmt line) 'face 'linum)
+   (propertize " " 'face 'mode-line)))
+
+(unless window-system
+  (setq linum-format 'linum-format-func))
 
 ;; Configure SLIME
 ;; Inferior Lisp interpreter is found at $CL_BIN
@@ -122,9 +140,13 @@
                        (interactive)
                        (funcall load-next-theme)))
 
+;; Set the autoencrypt feature of emacs for .gpg files
+(require `epa-file)
+(epa-file-enable)
+
 ;; Windows specific configuration
 ;; A Linux environment is assumed by default
-(defun windows-config ()
+;(defun windows-config ()
   ;; When running in Windows, we want to use an alternate shell so we
   ;; can be more unixy.
   ;(setq shell-file-name "c:/Tools/msys64/usr/bin/zsh")
