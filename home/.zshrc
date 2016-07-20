@@ -24,6 +24,9 @@ export LANG=en_US.UTF-8
 # All Hail VIM
 export EDITOR='vim'
 
+# Make sure ~/bin is on the path
+export PATH="$HOME/bin:$PATH"
+
 # Add something to something else
 # $1 is the original value being appended to
 # $2 is the seperator
