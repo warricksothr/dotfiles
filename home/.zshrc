@@ -36,6 +36,9 @@ function append_if_exists() {
     echo $result
 }
 
+# Alias to emacsclient
+alias ec="emacsclient"
+
 # Don't use the embedded shell time. Use GNU time.
 alias time="/usr/bin/time"
 # Alias for GNU Time with pretty output.
