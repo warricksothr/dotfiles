@@ -72,6 +72,9 @@
     (when (not (package-installed-p pkg))
       (package-install pkg))))
 
+;; Disable emacs help screen
+(setq inhibit-splash-screen t)
+
 ;; Markdown Mode Configuration
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
