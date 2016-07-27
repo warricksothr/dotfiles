@@ -75,6 +75,12 @@
 ;; Disable emacs help screen
 (setq inhibit-splash-screen t)
 
+;; Emable emacs copying from X11
+(setq x-select-enable-clipboard t)
+
+;; Always follow symbolic links back to the source file in version control
+(setq x-select-enable-clipboard t)
+
 ;; Markdown Mode Configuration
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
