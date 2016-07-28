@@ -21,8 +21,8 @@ source $ZSH/oh-my-zsh.sh
 # Make sure we're in en_us UTF8
 export LANG=en_US.UTF-8
 
-# All Hail VIM
-export EDITOR='vim'
+# All Hail EMACS
+export EDITOR='emacsclient -a vim'
 
 # Make sure ~/bin is on the path
 export PATH="$HOME/bin:$PATH"
@@ -38,6 +38,10 @@ function append_if_exists() {
     fi
     echo $result
 }
+
+# Alias to emacsclient
+# fall back on vim if emacs isn't started
+alias ec="emacsclient -a vim"
 
 # Don't use the embedded shell time. Use GNU time.
 alias time="/usr/bin/time"

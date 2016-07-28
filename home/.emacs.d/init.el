@@ -73,6 +73,15 @@
     (when (not (package-installed-p pkg))
       (package-install pkg))))
 
+;; Disable emacs help screen
+(setq inhibit-splash-screen t)
+
+;; Emable emacs copying from X11
+(setq x-select-enable-clipboard t)
+
+;; Always follow symbolic links back to the source file in version control
+(setq x-select-enable-clipboard t)
+
 ;; Markdown Mode Configuration
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
@@ -177,7 +186,14 @@
 ;; Windows specific configurations
 ;(cond
  ;((string-equal system-type "windows-nt") ; MS Windows System
-  ;(windows-config)))
+                                        ;(windows-config)))
+
+;; Advice for open files as root if we don't have enough permissions
+(defadvice ido-find-file (after find-file-sudo activate)
+  "Find file as root if necessary."
+  (unless (and buffer-file-name
+               (file-writable-p buffer-file-name))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
