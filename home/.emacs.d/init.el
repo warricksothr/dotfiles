@@ -20,6 +20,7 @@
 ;; Tool packages
 (defvar sothr/tools '(auto-complete
                       better-defaults
+                      elpy
                       gist
                       projectile
                       magit
@@ -135,10 +136,23 @@
 ;; Load the first theme as the default theme
 (funcall load-next-theme)
 
+;; Make sure that the frames are set to dark mode
+(custom-set-variables '(frame-background-mode 'dark))
+
 ;; Toggle theme switch with F3
 (global-set-key [f3] (lambda ()
                        (interactive)
                        (funcall load-next-theme)))
+
+;; Set python tabs to none, and indent width to 4
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode nil)
+            (setq tab-width 4)
+            (setq python-indent 4)))
+;; Enable ELPY
+(setq elpy-rpc-python-command "python3")
+(elpy-enable)
 
 ;; Set the autoencrypt feature of emacs for .gpg files
 (require `epa-file)
@@ -174,3 +188,9 @@
    (quote
     (org-doing org-bullets org-autolist org-ac better-defaults yaml-mode slime rust-mode projectile markdown-mode magit go-mode gist cyberpunk-theme auto-complete))))
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(neo-file-link-face ((t (:foreground "white")))))
