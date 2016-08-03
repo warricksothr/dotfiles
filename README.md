@@ -21,8 +21,8 @@ More To Be Added.
 
 - [x] Make the .update_dotfiles script smarter in how it updates
 - [x] Work on emacs configuration
-- [] Look into automating some emacs configuration.
-- [] Move functionality into utility scripts
+- [] Break features out into subscripts so that .zshrc can be reduced in size and just sub contract work out to the feature scripts
+- [] Add support for additional environments
 
 # License
 
