@@ -5,6 +5,12 @@
 
 export ZSH=$HOME/.oh-my-zsh
 
+# Detect if we're running in cygwin
+local cygwin="$(env | grep cygdrive &>/dev/null && echo $?)"
+if [ -n "${cygwin}" ] && [[ "${cygwin}" == "0" ]]; then
+    export CSYSTEM="CSYS"
+fi
+
 # Best theme ever!
 ZSH_THEME="ys"
 
@@ -77,8 +83,31 @@ if [ -d "$HOME/.rbenv" ] && [ -z "$MSYSTEM" ]; then
     eval "$(rbenv init -)"
 fi
 
+# A function that does the automatic path translation for a windows emacs
+cygwin_emacsclient(){
+    # Loop over all the input variables and convert their paths     
+    declare -a args=() 
+    for arg in $@
+    do
+        win_path="$(cygpath -p -w $arg)"
+        args=("${args[@]}" "${win_path}")
+    done
+    # Execute emacsclient with the correct paths
+    emacsclient -a vim $args[@]
+}
+
+# Cygwin Specific Configuration
+if [ -n "${CSYSTEM}" ] && [[ "${CSYSTEM}" == "CSYS" ]]; then
+    # Configure emacsclient to get the correct paths
+    emacs_path="$(which emacs)"
+    if [[ $emacs_path == /cygdrive* ]]; then
+        alias ec=cygwin_emacsclient
+    fi
+
+fi
+
 # MSYS Specific Configuration
-if [ ! -z "$MSYSTEM" ] && [[ "$MSYSTEM" == "MSYS" ]]; then
+if [ -n "$MSYSTEM" ] && [[ "$MSYSTEM" == "MSYS" ]]; then
     # Make sure msys has our CL on the path
     export PATH=$(append_if_exists $PATH ":" $(dirname "$CL_BIN"))
 fi
