@@ -83,6 +83,11 @@ if [ -d "$HOME/.rbenv" ] && [ -z "$MSYSTEM" ]; then
     eval "$(rbenv init -)"
 fi
 
+# Rust Setup
+if [ -d "$HOME/.cargo" ]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 # A function that does the automatic path translation for a windows emacs
 cygwin_emacsclient(){
     # Loop over all the input variables and convert their paths     

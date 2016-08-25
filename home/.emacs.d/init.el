@@ -10,6 +10,12 @@
 (setq coding-system-for-read 'utf-8)
 (setq coding-system-for-write 'utf-8)
 
+;; Make sure we're not checking signatures...
+;; I know, this is bad, but would somone please
+;; publish their signing keys so that I can
+;; comment this out!
+(setq package-check-signature nil)
+
 ;; Load common lisp
 (require 'cl)
 
