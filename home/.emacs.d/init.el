@@ -1,3 +1,6 @@
+;;; package --- init.el
+;;; commentary: My emacs setup file
+;;; code:
 ;; Set enironment information
 (setq user-full-name "Drew Short")
 (setq user-email-address "warrick@sothr.com")
@@ -10,20 +13,21 @@
 ;; Load common lisp
 (require 'cl)
 
-;; Package management
-(load "package")
-(package-initialize)
-
 ;; Theme packages
-(defvar sothr/themes '(cyberpunk-theme) "Themes")
+(defvar sothr/themes '(cyberpunk-theme)
+  "Themes")
 
 ;; Tool packages
 (defvar sothr/tools '(auto-complete
                       better-defaults
+                      company
+                      flycheck
+                      ;;flycheck-rust
                       gist
                       projectile
                       magit
                       neotree
+                      racer
                       slime)
   "Tools")
 
@@ -43,11 +47,14 @@
   "Org Mode Packages")
 
 ;; Combine the package lists
-(defvar sothr/packages (append sothr/tools sothr/modes sothr/org) "Default Packages")
+(defvar sothr/packages (append sothr/themes sothr/tools sothr/modes sothr/org) "Default Packages")
 
+;; Package management
+(require 'package)
 ;; Repositories
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
+	     '("melpa" . "http://melpa.org/packages/") t)
+(package-initialize)
 
 (setq package-archive-enable-alist '(("melpa" deft magit)))
 
@@ -71,6 +78,23 @@
   (dolist (pkg sothr/packages)
     (when (not (package-installed-p pkg))
       (package-install pkg))))
+
+;; Rust development setup
+;; Enable company mode everywhere
+(add-hook 'after-init-hook 'global-company-mode)
+;;flycheck for syntax checking
+(global-flycheck-mode)
+;;(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+;; Racer for code completion
+(add-hook 'rust-mode-hook #'racer-mode)
+(add-hook 'racer-mode-hook #'eldoc-mode)
+;; On demand rust completions
+(add-hook 'racer-mode-hook #'company-mode)
+;; must only be executed after the first rust-mode load
+(with-eval-after-load "rust-mode"
+  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common))
+(setq company-tooltip-align-annotations t)
+
 
 ;; Markdown Mode Configuration
 (autoload 'markdown-mode "markdown-mode"
