@@ -21,8 +21,8 @@
 (defvar sothr/tools '(auto-complete
                       better-defaults
                       company
+                      elpy
                       flycheck
-                      ;;flycheck-rust
                       gist
                       projectile
                       magit
@@ -78,7 +78,6 @@
   (dolist (pkg sothr/packages)
     (when (not (package-installed-p pkg))
       (package-install pkg))))
-
 ;; Rust development setup
 ;; Enable company mode everywhere
 (add-hook 'after-init-hook 'global-company-mode)
@@ -95,6 +94,14 @@
   (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common))
 (setq company-tooltip-align-annotations t)
 
+;; Disable emacs help screen
+(setq inhibit-splash-screen t)
+
+;; Emable emacs copying from X11
+(setq x-select-enable-clipboard t)
+
+;; Always follow symbolic links back to the source file in version control
+(setq x-select-enable-clipboard t)
 
 ;; Markdown Mode Configuration
 (autoload 'markdown-mode "markdown-mode"
@@ -159,10 +166,23 @@
 ;; Load the first theme as the default theme
 (funcall load-next-theme)
 
+;; Make sure that the frames are set to dark mode
+(custom-set-variables '(frame-background-mode 'dark))
+
 ;; Toggle theme switch with F3
 (global-set-key [f3] (lambda ()
                        (interactive)
                        (funcall load-next-theme)))
+
+;; Set python tabs to none, and indent width to 4
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode nil)
+            (setq tab-width 4)
+            (setq python-indent 4)))
+;; Enable ELPY
+(setq elpy-rpc-python-command "python3")
+(elpy-enable)
 
 ;; Set the autoencrypt feature of emacs for .gpg files
 (require `epa-file)
@@ -187,7 +207,14 @@
 ;; Windows specific configurations
 ;(cond
  ;((string-equal system-type "windows-nt") ; MS Windows System
-  ;(windows-config)))
+                                        ;(windows-config)))
+
+;; Advice for open files as root if we don't have enough permissions
+(defadvice ido-find-file (after find-file-sudo activate)
+  "Find file as root if necessary."
+  (unless (and buffer-file-name
+               (file-writable-p buffer-file-name))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -197,9 +224,10 @@
  '(package-selected-packages
    (quote
     (org-doing org-bullets org-autolist org-ac better-defaults yaml-mode slime rust-mode projectile markdown-mode magit go-mode gist cyberpunk-theme auto-complete))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(neo-file-link-face ((t (:foreground "white")))))
